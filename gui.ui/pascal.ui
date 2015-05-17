@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog_pascal</class>
+ <widget class="QDialog" name="Dialog_pascal">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>288</width>
+    <height>339</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="windowTitle">
+   <string>二项分布图示参数</string>
+  </property>
+  <widget class="QWidget" name="gridLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>271</width>
+     <height>314</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="6" column="0">
+     <widget class="QLabel" name="label_7">
+      <property name="text">
+       <string>倍数因子：</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="2">
+     <widget class="QRadioButton" name="radioButton_QoM">
+      <property name="toolTip">
+       <string>动量</string>
+      </property>
+      <property name="whatsThis">
+       <string>动量</string>
+      </property>
+      <property name="text">
+       <string>P</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+      <attribute name="buttonGroup">
+       <string notr="true">buttonGroup</string>
+      </attribute>
+     </widget>
+    </item>
+    <item row="4" column="1">
+     <widget class="QRadioButton" name="radioButton_position">
+      <property name="toolTip">
+       <string>位置</string>
+      </property>
+      <property name="whatsThis">
+       <string>位置</string>
+      </property>
+      <property name="text">
+       <string>X</string>
+      </property>
+      <attribute name="buttonGroup">
+       <string notr="true">buttonGroup</string>
+      </attribute>
+     </widget>
+    </item>
+    <item row="8" column="0">
+     <widget class="QLabel" name="label_6">
+      <property name="text">
+       <string>操作:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="1" colspan="2">
+     <widget class="QLineEdit" name="lineEdit_4"/>
+    </item>
+    <item row="11" column="2">
+     <widget class="QPushButton" name="pushButton">
+      <property name="text">
+       <string>生成</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1">
+     <widget class="QRadioButton" name="radioButton_gonssise">
+      <property name="toolTip">
+       <string>高斯</string>
+      </property>
+      <property name="whatsThis">
+       <string>高斯</string>
+      </property>
+      <property name="text">
+       <string>G</string>
+      </property>
+      <attribute name="buttonGroup">
+       <string notr="true">buttonGroup_2</string>
+      </attribute>
+     </widget>
+    </item>
+    <item row="10" column="0" colspan="3">
+     <widget class="Line" name="line">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="1" colspan="2">
+     <widget class="QLineEdit" name="lineEdit_operation">
+      <property name="maxLength">
+       <number>4</number>
+      </property>
+      <property name="placeholderText">
+       <string>操作符-默认1111</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="2">
+     <widget class="QRadioButton" name="radioButton_discrete">
+      <property name="toolTip">
+       <string>离散</string>
+      </property>
+      <property name="whatsThis">
+       <string>经典</string>
+      </property>
+      <property name="text">
+       <string>D</string>
+      </property>
+      <attribute name="buttonGroup">
+       <string notr="true">buttonGroup_3</string>
+      </attribute>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="label_3">
+      <property name="text">
+       <string>f:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1" colspan="2">
+     <widget class="QLineEdit" name="lineEdit">
+      <property name="placeholderText">
+       <string>长度2-2000</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="0">
+     <widget class="QLabel" name="label_4">
+      <property name="text">
+       <string>Mod2:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="2">
+     <widget class="QRadioButton" name="radioButton_bayes">
+      <property name="toolTip">
+       <string>贝叶斯</string>
+      </property>
+      <property name="whatsThis">
+       <string>贝叶斯</string>
+      </property>
+      <property name="text">
+       <string>B</string>
+      </property>
+      <attribute name="buttonGroup">
+       <string notr="true">buttonGroup_2</string>
+      </attribute>
+     </widget>
+    </item>
+    <item row="1" column="1" colspan="2">
+     <widget class="QLineEdit" name="lineEdit_2">
+      <property name="placeholderText">
+       <string>变量（默认2）</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="1">
+     <widget class="QRadioButton" name="radioButton_quantum">
+      <property name="toolTip">
+       <string>量子</string>
+      </property>
+      <property name="whatsThis">
+       <string>量子</string>
+      </property>
+      <property name="text">
+       <string>Q</string>
+      </property>
+      <attribute name="buttonGroup">
+       <string notr="true">buttonGroup_3</string>
+      </attribute>
+     </widget>
+    </item>
+    <item row="2" column="1" colspan="2">
+     <widget class="QLineEdit" name="lineEdit_3">
+      <property name="placeholderText">
+       <string>函数范围或单个函数</string>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="0">
+     <widget class="QLabel" name="label_8">
+      <property name="text">
+       <string>符号：</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="label_2">
+      <property name="text">
+       <string>n:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="0">
+     <widget class="QLabel" name="label_5">
+      <property name="text">
+       <string>mod3:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QLabel" name="label_lenght">
+      <property name="text">
+       <string>N:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0">
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string>Mod1:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="1">
+     <widget class="QSpinBox" name="spinBox">
+      <property name="value">
+       <number>1</number>
+      </property>
+     </widget>
+    </item>
+    <item row="9" column="0">
+     <widget class="QLabel" name="label_9">
+      <property name="text">
+       <string>排序:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="9" column="1">
+     <widget class="QComboBox" name="comboBox">
+      <property name="currentText">
+       <string>sl</string>
+      </property>
+      <item>
+       <property name="text">
+        <string>sl</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>f</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>c</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+ <buttongroups>
+  <buttongroup name="buttonGroup_3"/>
+  <buttongroup name="buttonGroup_2"/>
+  <buttongroup name="buttonGroup"/>
+ </buttongroups>
+</ui>
