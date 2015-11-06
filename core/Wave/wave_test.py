@@ -1,6 +1,11 @@
 # -*-coding:utf-8 -*-
+# File Name: wave_test.py
+# Author   : H.Y
+# Date     : 2015-11-6
+
 import os
 import struct
+import random
 
 
 class Wave(object):
@@ -27,6 +32,17 @@ class Wave(object):
             result_str += '0'*cycle
             i += 1
         return result_str
+
+    def random_cycle_wave_to_mem(self, end_round=10000, random_range=(1, 30)):
+        i = 0
+        result_str = ''
+        while i < end_round:
+            result_str += '1'*random.randint(random_range[0], random_range[1])
+            result_str += '0'*random.randint(random_range[0], random_range[1])
+            i +=1
+        return result_str
+        
+        
 
 
 class Tools():
@@ -73,6 +89,34 @@ class Tools():
             raise
 
 
+def multi_wave_xor(end_round=100,cycles = [6, 10], a_random=False):
+    """
+    多波异或, 最后可以加入一个随机周期的0-1数组异或起来
+    """
+    wave_set = []
+    wave_craetor = Wave()
+    tools = Tools()
+    for cycle in cycles:
+        wave_set.append(wave_craetor.square_wave_to_mem(cycle, end_round))
+
+    # 准备开始异或的事情了
+    result_wave = wave_set[0]  # 获取到第一条方波形数据
+    for wave in wave_set[1:len(cycles)]:
+        result_wave = tools.xor_str(result_wave, wave,
+                                    min(len(result_wave), len(wave)))
+    if a_random:
+        # 最后的一次异或将和一个随机变周期方波进行
+        random_wave = wave_craetor.random_cycle_wave_to_mem(end_round)
+        result_wave = tools.xor_str(result_wave,
+                                    random_wave,
+                                    min(len(result_wave), len(random_wave)))
+    return result_wave
+    
+    
+        
+
+
+
 def remove_temp_file(filename1='', filename2=''):
     """
     删除临时文件用的函数，如果模式不是文件模式的话，
@@ -106,11 +150,15 @@ def one_zeros(binstr, N):
     return count
 
 
-def block_statstic(window_size=10, strbuffer='', buffer_size=0):
+def block_statstic(window_size=10, strbuffer='', offset=1):
+    """
+    无重叠滑动窗口统计
+    offset:表示每次窗口滑动的距离
+    """
+    buffer_size = len(strbuffer)
     if buffer_size < 2:
         return
     result = {}  # 存放统计结果的
-    print buffer_size
     n_windows = buffer_size / window_size  # 向下取整的除法， python2 中的截断，python3中的真除法
     index = 0
     while index < buffer_size:
@@ -133,27 +181,28 @@ def block_statstic(window_size=10, strbuffer='', buffer_size=0):
         index = index+window_size
     return result
 
-def window_stastic(block_size=10):
-    pass
-
 
 def main():
-    wave_craetor = Wave(cycle=10, end_round=10000)
-    tools = Tools()
-    sq_wave1 = wave_craetor.square_wave_to_mem(
-        cycle=6,
-        end_round=64)
-    sq_wave2 = wave_craetor.square_wave_to_mem(
-        cycle=8,
-        end_round=64)
-    binarystr = tools.xor_str(
-        sq_wave1,
-        sq_wave2,
-        min(len(sq_wave1), len(sq_wave2)))
-    result = block_statstic(
-        window_size=6,
-        strbuffer=binarystr,
-        buffer_size=len(binarystr))
+    # wave_craetor = Wave(cycle=10, end_round=10000)
+    # tools = Tools()
+    # sq_wave1 = wave_craetor.square_wave_to_mem(
+    #     cycle=6,
+    #     end_round=64)
+    # sq_wave2 = wave_craetor.square_wave_to_mem(
+    #     cycle=8,
+    #     end_round=64)
+    # binarystr = tools.xor_str(
+    #     sq_wave1,
+    #     sq_wave2,
+    #     min(len(sq_wave1), len(sq_wave2)))
+    # result = block_statstic(
+    #     window_size=6,
+    #     strbuffer=binarystr,
+    #     buffer_size=len(binarystr))
+    # print result
+    xorwave = multi_wave_xor(a_random=False)
+    result = block_statstic(window_size=6,
+                            strbuffer=xorwave, buffer_size=len(xorwave))
     print result
 
 if __name__ == '__main__':
