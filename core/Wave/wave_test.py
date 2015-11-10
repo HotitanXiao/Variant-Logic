@@ -6,7 +6,7 @@
 import os
 import random
 import numpy as np
-from .. Gorilla import Exhaust
+from ..Gorilla import Exhaust
 
 ones = Exhaust.ones
 one_zeros = Exhaust.one_zeros
@@ -192,6 +192,3 @@ def get_3d_data(end_round=1000, cycles=[12, 8, 2], random=False):
                                   offset=6)
     return convert_pos(result)
 
-
-if __name__ == '__main__':
-    print "等待测试"
