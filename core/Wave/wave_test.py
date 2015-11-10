@@ -4,8 +4,12 @@
 # Date     : 2015-11-6
 
 import os
-import struct
 import random
+import numpy as np
+from .. Gorilla import Exhaust
+
+ones = Exhaust.ones
+one_zeros = Exhaust.one_zeros
 
 
 class Wave(object):
@@ -14,15 +18,6 @@ class Wave(object):
         super(Wave, self).__init__()
         self.cycle = cycle
         self.end_round = end_round
-
-    def square_wave_to_file(self, filename=''):
-        i = 0
-        out_file = open(filename, 'wb')
-        while i < self.end_round:
-            out_file.write('1'*self.cycle)
-            out_file.write('0'*self.cycle)
-            i += 1
-        out_file.close()
 
     def square_wave_to_mem(self, cycle=10, end_round=1000):
         i = 0
@@ -39,10 +34,8 @@ class Wave(object):
         while i < end_round:
             result_str += '1'*random.randint(random_range[0], random_range[1])
             result_str += '0'*random.randint(random_range[0], random_range[1])
-            i +=1
+            i += 1
         return result_str
-        
-        
 
 
 class Tools():
@@ -89,7 +82,7 @@ class Tools():
             raise
 
 
-def multi_wave_xor(end_round=100,cycles = [6, 10], a_random=False):
+def multi_wave_xor(end_round=100, cycles=[6, 10], a_random=False):
     """
     多波异或, 最后可以加入一个随机周期的0-1数组异或起来
     """
@@ -111,10 +104,6 @@ def multi_wave_xor(end_round=100,cycles = [6, 10], a_random=False):
                                     random_wave,
                                     min(len(result_wave), len(random_wave)))
     return result_wave
-    
-    
-        
-
 
 
 def remove_temp_file(filename1='', filename2=''):
@@ -126,31 +115,31 @@ def remove_temp_file(filename1='', filename2=''):
     os.remove(filename2)
 
 
-def ones(binstr, N):
-    """根据输入的二进制串计算1的个数"""
-    count = 0
-    if N == 1:
-        return count
-    for x in xrange(0, N):
-        if binstr[x] == '1':
-            count = count+1
-    return count
-
-
-def one_zeros(binstr, N):
+def window_statstic_pjct(window_size=10, strbuffer='',
+                         offset=1, projection='p'):
     """
-    计算01的个数，需要考虑循环的操作,N表示0-1向量的位长
+    这个函数是用于生成一个映射的数据流，就不进行统计，只是标记
+    这次统计得到的p，或q并加入到result数组中
     """
-    count = 0
-    if N == 1:
-        return count
-    for x in xrange(0, N):
-        if(binstr[x] == '0' and binstr[(x+1) % N] == '1'):
-            count = count + 1
-    return count
+    buffer_size = len(strbuffer)
+    if buffer_size < 2:
+        return
+    result = np.array([])  # 存放统计结果的
+    index = 0
+    if projection == 'p':
+        pjctfunc = ones
+    else:
+        pjctfunc = one_zeros
+    while index < buffer_size-window_size:
+        # 开始判断操作
+        # pkey 是用于进行映射用的索引标记
+        pkey = pjctfunc(strbuffer[index:index+window_size], window_size)
+        result = np.append(result, pkey)
+        index = index+offset
+    return result
 
 
-def block_statstic(window_size=10, strbuffer='', offset=1):
+def window_statstic(window_size=10, strbuffer='', offset=1):
     """
     无重叠滑动窗口统计
     offset:表示每次窗口滑动的距离
@@ -159,11 +148,10 @@ def block_statstic(window_size=10, strbuffer='', offset=1):
     if buffer_size < 2:
         return
     result = {}  # 存放统计结果的
-    n_windows = buffer_size / window_size  # 向下取整的除法， python2 中的截断，python3中的真除法
     index = 0
-    while index < buffer_size:
+    while index < buffer_size-window_size:
         # 开始判断操作
-        print "now is ", strbuffer[index:index+window_size]
+        # 取一个窗口 
         binstr_ones = ones(strbuffer[index:index+window_size], window_size)
         binstr_one_zeros = one_zeros(
             strbuffer[index:index+window_size],
@@ -177,33 +165,33 @@ def block_statstic(window_size=10, strbuffer='', offset=1):
                 p[binstr_one_zeros] = 1
         else:
             result[binstr_ones] = {binstr_one_zeros: 1}
-        print index
-        index = index+window_size
+        index = index+offset
     return result
 
 
-def main():
-    # wave_craetor = Wave(cycle=10, end_round=10000)
-    # tools = Tools()
-    # sq_wave1 = wave_craetor.square_wave_to_mem(
-    #     cycle=6,
-    #     end_round=64)
-    # sq_wave2 = wave_craetor.square_wave_to_mem(
-    #     cycle=8,
-    #     end_round=64)
-    # binarystr = tools.xor_str(
-    #     sq_wave1,
-    #     sq_wave2,
-    #     min(len(sq_wave1), len(sq_wave2)))
-    # result = block_statstic(
-    #     window_size=6,
-    #     strbuffer=binarystr,
-    #     buffer_size=len(binarystr))
-    # print result
-    xorwave = multi_wave_xor(a_random=False)
-    result = block_statstic(window_size=6,
-                            strbuffer=xorwave, buffer_size=len(xorwave))
-    print result
+def convert_pos(result):
+    """
+    传入一个结果map，将结果map转换为
+    """
+    ppos = []  # 1的个数
+    qpos = []  # 0-1的个数
+    conpos = []  # 聚类个体数
+
+    for cluster_index in result:
+        for t in result[cluster_index]:
+            ppos.append(cluster_index)
+            qpos.append(t)
+            conpos.append(result[cluster_index][t])
+    return (ppos, qpos, conpos)
+
+
+def get_3d_data(end_round=1000, cycles=[12, 8, 2], random=False):
+    xorwave = multi_wave_xor(end_round, cycles, random)
+    result = window_statstic_pjct(window_size=6,
+                                  strbuffer=xorwave,
+                                  offset=6)
+    return convert_pos(result)
+
 
 if __name__ == '__main__':
-    main()
+    print "等待测试"

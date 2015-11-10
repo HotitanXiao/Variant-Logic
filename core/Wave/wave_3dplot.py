@@ -17,7 +17,7 @@ dx = 0.5
 dy = 0.5
 zpos = np.zeros(len(z))
 # 下面参数比较坑跌，x，y，z标明画图起始点
-#dx dy dz 标明柱状图三位参数长宽高
+# dx dy dz 标明柱状图三位参数长宽高
 ax.bar3d(x, y, zpos, dx, dy, z, color='y', zsort='average')
 ax.set_xlabel('p')
 ax.set_ylabel('q')
