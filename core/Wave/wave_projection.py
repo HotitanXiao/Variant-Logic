@@ -41,13 +41,17 @@ def process(end_round=1000, cycles=[12, 8, 2], random=False,
 
 if __name__ == '__main__':
 
-    end_round_set = [100, 500, 1000]
-    cycles_set = [[12, 8, 2], [3, 7, 11]]
+    end_round_set = [5000, 10000]
+    cycles_set = [[1], [2], [1, 2], [10], [15], [10, 15]]
     random_flag = [True, False]
-    window_size_set = [2, 6, 8, 14]
-    offset = 1
+    window_size_set = [2, 6, 8, 14, 20]
+    offset_set = [1, 3, 7, 20, 25]
+    projc_set = ['p', 'q']
     for end_round in end_round_set:
         for cycles in cycles_set:
             for random in random_flag:
                 for window_size in window_size_set:
-                    process(end_round, cycles, random, window_size, offset,'q')
+                    for offset in offset_set:
+                        for p in projc_set:
+                            process(end_round, cycles, random,
+                                    window_size, offset, p)
