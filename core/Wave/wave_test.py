@@ -185,10 +185,9 @@ def convert_pos(result):
     return (ppos, qpos, conpos)
 
 
-def get_3d_data(end_round=1000, cycles=[12, 8, 2], random=False):
+def get_3d_data(end_round=1000, cycles=[12, 8, 2], window_size=10, random=False):
     xorwave = multi_wave_xor(end_round, cycles, random)
-    result = window_statstic_pjct(window_size=6,
-                                  strbuffer=xorwave,
-                                  offset=6)
+    result = window_statstic(window_size,
+                             strbuffer=xorwave,
+                             offset=6)
     return convert_pos(result)
-

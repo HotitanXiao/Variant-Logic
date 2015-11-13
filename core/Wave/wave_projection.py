@@ -23,7 +23,8 @@ def projection(end_round=1000, cycles=[12, 8, 2], random=False,
     用于生成映射的数据，可选按p和按q映射
     """
     xorwave = wave_test.multi_wave_xor(end_round, cycles, random)
-    return wave_test.window_statstic_pjct(window_size, xorwave, offset)
+    return wave_test.window_statstic_pjct(window_size, xorwave,
+                                          offset, projection=projecttype)
 
 
 def process(end_round=1000, cycles=[12, 8, 2], random=False,
