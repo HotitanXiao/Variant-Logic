@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 #
 #
-#要想界面搞得好
-#自己动手少不了
+# 要想界面搞得好
+# 自己动手少不了
 #
 #
 import sys
@@ -143,17 +143,15 @@ class SettingWindow(QDialog,Ui_Setting):
     def __init__(self, parent=None):
         super(SettingWindow, self).__init__(parent)
         self.setupUi(self)
-        #获取文件保存根路径
+        # 获取文件保存根路径
         rootpathstr = xmlcfg.getRootPath()
-        #将得到的内容显示到界面上
+        # 将得到的内容显示到界面上
         self.lineEdit_rootPath.setText(rootpathstr)
 
-
-    
     def save(self):
-        #保存配置文件
+        # 保存配置文件
         pass
-
+        
     def RSConfig(self):
         #读取配置文件并呈现信息
         pass

@@ -88,7 +88,6 @@ class GorilaBasis(object):
 
                 
         
-
         
     def  cRange(self,n,k): #似乎是计算某个区间的
         if ((n-k)<k):

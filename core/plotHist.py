@@ -106,7 +106,8 @@ class PlotHist(GorilaBasis):
             plt.ylim(standardAxis[2],standardAxis[3]+2)
 
         plt.savefig(self.plot_Path+'SL/'+self._getFileName(N,2,power,title,'G','P','null',operation))#保存文件了~走起
-        plt.close('all')
+        plt.close(
+            'all')
         # plt.show()
         print time.time()-start    
     

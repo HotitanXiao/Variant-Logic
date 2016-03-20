@@ -9,6 +9,7 @@
 
 from PySide import QtCore, QtGui
 
+
 class Ui_Dialog_pascal(object):
     def setupUi(self, Dialog_pascal):
         Dialog_pascal.setObjectName("Dialog_pascal")
@@ -159,4 +160,3 @@ class Ui_Dialog_pascal(object):
         self.comboBox.setItemText(0, QtGui.QApplication.translate("Dialog_pascal", "sl", None, QtGui.QApplication.UnicodeUTF8))
         self.comboBox.setItemText(1, QtGui.QApplication.translate("Dialog_pascal", "f", None, QtGui.QApplication.UnicodeUTF8))
         self.comboBox.setItemText(2, QtGui.QApplication.translate("Dialog_pascal", "c", None, QtGui.QApplication.UnicodeUTF8))
-
