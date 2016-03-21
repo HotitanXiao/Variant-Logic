@@ -6,11 +6,20 @@ import numpy as np
 import os
 
 import operator
+import platform
 
-output_filename_base = "D:/TestData/quantum_bit/output/shifted_key4/"
-input_dir = "D:/TestData/quantum_bit/source_char/"
+system_type = platform.system()
+if system_type == "Linux":
+    output_filename_base = "/home/dm007/TestData/quantum_bit/output/shifted_key4/"
+    input_dir = "D:/TestData/quantum_bit/source_char/"
+    result_output = "/home/dm007/result_output.txt" 
+else:
+    output_filename_base = "D:/TestData/quantum_bit/quantum_bit/output/shifted_key4/"
+    input_dir = "D:/TestData/quantum_bit/source_char/"
+    result_output = "d:/result_output.txt"
+     
 file_list = os.listdir(input_dir+"secure_key4/")
-result_output = "d:/result_output.txt" 
+
 
 
 def log_stastic_result():
