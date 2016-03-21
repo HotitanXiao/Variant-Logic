@@ -11,7 +11,7 @@ import platform
 system_type = platform.system()
 if system_type == "Linux":
     output_filename_base = "/home/dm007/TestData/quantum_bit/output/shifted_key4/"
-    input_dir = "D:/TestData/quantum_bit/source_char/"
+    input_dir = "/home/dm007/TestData/quantum_bit/source_char/"
     result_output = "/home/dm007/result_output.txt" 
 else:
     output_filename_base = "D:/TestData/quantum_bit/quantum_bit/output/shifted_key4/"
@@ -78,7 +78,7 @@ def log_stastic_result():
 
 def log_stastic_result_plot():
     fileindex = 4
-    quantum_binstr_ = open("d:/TestData/VLRC4_for_nist_128.txt","rb").read()
+    choice = "p_p"
     log_file = open(output_filename_base+"log_file.txt","w")
     center_position = 2048
     window_size = 4096
@@ -117,8 +117,11 @@ def log_stastic_result_plot():
     p_count_shifted_array = []
     q_shifted_array = []
     q_count_shifted_array = []
+    
+    p_position_table = {} # 用来存放
+    p_position_shifted_table = {}
 
-    for file in file_list[1:50]:
+    for file in file_list[1:1000]:
         # print "now is %s" % file
         quantum_binstr_secure = open(input_dir+"secure_key4/"+file,'rb').read()
 
@@ -139,6 +142,12 @@ def log_stastic_result_plot():
         p = x[index]
         p_array.append(p-center_position)
         p_count_array.append(p_count)
+        
+        if p_position_table.get(p):
+            p_position_table[p] += p_count
+        else:
+            p_position_table[p] = p_count
+            
 
 
         (ones_t,zeros_t,data) = basic.quantum_statstic_pjct(window_size=window_size, strbuffer=quantum_binstr_shifted, offset=window_size, projection='p')
@@ -148,6 +157,10 @@ def log_stastic_result_plot():
         p = x[index]
         p_shifted_array.append(p-center_position)
         p_count_shifted_array.append(p_count)
+        if p_position_shifted_table.get(p):
+            p_position_shifted_table[p] += p_count
+        else:
+            p_position_shifted_table[p] = p_count
 
 
 
@@ -192,14 +205,38 @@ def log_stastic_result_plot():
     # ax0.bar(x, p_count_shifted_array, width)
     # ax0.bar(x + width, p_count_array, width, color=plt.rcParams['axes.color_cycle'][1],label=label)
     # ax0.set_xticks(x)
+    if choice == "position":
+        ax0.set_title("p_position_shifted")   
+        ax0.bar(x, p_shifted_array, width)
+        ax0.set_xticks(x)
 
-    ax0.set_title("p_position_shifted")   
-    ax0.bar(x, p_shifted_array, width)
-    ax0.set_xticks(x)
+        ax1.set_title("p_position_secure")   
+        ax1.bar(x, p_array, width)
+        ax1.set_xticks(x)
+    
+    if choice == "rate":
+        ax0.set_title("rate_shifted")   
+        ax0.plot(x, one_zero_rate_shifted_array)
+        ax0.set_xticks(x)
 
-    ax1.set_title("p_position_secure")   
-    ax1.bar(x, p_array, width)
-    ax1.set_xticks(x)
+        ax1.set_title("rate_secure")   
+        ax1.plot(x, one_zero_rate_array)
+        ax1.set_xticks(x)
+    if choice == "p_p":
+        x = p_position_shifted_table.keys()
+        y = []
+        for key in x :
+            y.append(p_position_shifted_table[key])
+        ax0.set_title("position and count shifted")
+        ax0.bar(x,y)
+        
+        x = p_position_table.keys()
+        y = []
+        for key in x :
+            y.append(p_position_table[key])
+        
+        ax1.set_title("position and count secure")
+        ax1.bar(x, y)
     # ax1.plot(x,p_shifted_array,color="red",linewidth=2)
     # ax1.plot(x,p_array,color="green",linewidth=3)
     # ax1.plot([1,len(p_shifted_array)],[2048,2048])
