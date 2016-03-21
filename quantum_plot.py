@@ -80,6 +80,7 @@ def log_stastic_result_plot():
     fileindex = 4
     quantum_binstr_ = open("d:/TestData/VLRC4_for_nist_128.txt","rb").read()
     log_file = open(output_filename_base+"log_file.txt","w")
+    center_position = 2048
     window_size = 4096
     projection_set = ['p','q']
     offset_set = [8]
@@ -117,7 +118,7 @@ def log_stastic_result_plot():
     q_shifted_array = []
     q_count_shifted_array = []
 
-    for file in file_list[1:100]:
+    for file in file_list[1:50]:
         # print "now is %s" % file
         quantum_binstr_secure = open(input_dir+"secure_key4/"+file,'rb').read()
 
@@ -136,7 +137,7 @@ def log_stastic_result_plot():
         index = y.argmax()
         p_count = y[index]
         p = x[index]
-        p_array.append(p)
+        p_array.append(p-center_position)
         p_count_array.append(p_count)
 
 
@@ -145,7 +146,7 @@ def log_stastic_result_plot():
         index = y.argmax()
         p_count = y[index]
         p = x[index]
-        p_shifted_array.append(p)
+        p_shifted_array.append(p-center_position)
         p_count_shifted_array.append(p_count)
 
 
@@ -183,37 +184,40 @@ def log_stastic_result_plot():
     n_bins = len(q_count_array)
     width = 0.25
     x = np.arange(1,n_bins+1)
-    fig, axes = plt.subplots(nrows=3, ncols=2)
-    ax0, ax1, ax2, ax3,ax4,ax5 = axes.flat
-    colors = ['red', 'tan']
+    fig, axes = plt.subplots(nrows=2, ncols=1)
+    ax0, ax1 = axes.flat
+    colors = ['red', 'green']
     label = ["shited","secure"]
-    ax0.set_title("p_count")   
-    ax0.bar(x, p_count_shifted_array, width)
-    ax0.bar(x + width, p_count_array, width, color=plt.rcParams['axes.color_cycle'][1],label=label)
+    # ax0.set_title("p_count")   
+    # ax0.bar(x, p_count_shifted_array, width)
+    # ax0.bar(x + width, p_count_array, width, color=plt.rcParams['axes.color_cycle'][1],label=label)
+    # ax0.set_xticks(x)
+
+    ax0.set_title("p_position_shifted")   
+    ax0.bar(x, p_shifted_array, width)
     ax0.set_xticks(x)
 
-    # ax1.set_title("p_position")   
-    # ax1.bar(x, p_shifted_array, width)
-    # ax1.bar(x + width, p_array, width, color=plt.rcParams['axes.color_cycle'][1],label=label)
-    # ax1.set_xticks(x)
-    ax1.plot(x,p_shifted_array,color="red",linewidth=2)
-    ax1.plot(x,p_array,color="green",linewidth=3)
-    ax1.plot([1,len(p_shifted_array)],[2048,2048])
+    ax1.set_title("p_position_secure")   
+    ax1.bar(x, p_array, width)
+    ax1.set_xticks(x)
+    # ax1.plot(x,p_shifted_array,color="red",linewidth=2)
+    # ax1.plot(x,p_array,color="green",linewidth=3)
+    # ax1.plot([1,len(p_shifted_array)],[2048,2048])
 
-    ax2.set_title("q count")   
-    ax2.bar(x, q_count_shifted_array, width)
-    ax2.bar(x + width, q_count_array, width, color=plt.rcParams['axes.color_cycle'][1],label=label)
-    ax2.set_xticks(x)
+    # ax2.set_title("q count")   
+    # ax2.bar(x, q_count_shifted_array, width)
+    # ax2.bar(x + width, q_count_array, width, color=plt.rcParams['axes.color_cycle'][1],label=label)
+    # ax2.set_xticks(x)
 
-    ax3.set_title("q position")   
-    ax3.bar(x, q_count_shifted_array, width)
-    ax3.bar(x + width, q_count_array, width, color=plt.rcParams['axes.color_cycle'][1],label=label)
-    ax3.set_xticks(x)
+    # ax3.set_title("q position")   
+    # ax3.bar(x, q_count_shifted_array, width)
+    # ax3.bar(x + width, q_count_array, width, color=plt.rcParams['axes.color_cycle'][1],label=label)
+    # ax3.set_xticks(x)
 
-    ax4.set_title("1/0 rate")   
-    ax4.bar(x, one_zero_rate_shifted_array, width)
-    ax4.bar(x + width, one_zero_rate_array, width, color=plt.rcParams['axes.color_cycle'][1],label=label)
-    ax4.set_xticks(x)
+    # ax4.set_title("1/0 rate")   
+    # ax4.bar(x, one_zero_rate_shifted_array, width)
+    # ax4.bar(x + width, one_zero_rate_array, width, color=plt.rcParams['axes.color_cycle'][1],label=label)
+    # ax4.set_xticks(x)
 
 
 
