@@ -237,7 +237,6 @@ class TriangularNumberWindow(QDialog,Ui_TriangularNumber):
         import basic.XMLConfig
         from core import plotTriangle
         if len(str(self.lineEdit_Number.text()))<1:
-            print "N值未输入"
             msg = QMessageBox()
             msg.setText(QApplication.translate("Cannot get N", "N未输入", None, QApplication.UnicodeUTF8))
             msg.setWindowTitle(QApplication.translate("Error", "错误", None, QApplication.UnicodeUTF8))

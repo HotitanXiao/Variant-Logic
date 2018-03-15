@@ -132,16 +132,15 @@ class GorilaBasis(object):
 
 
 ## End of gorrila.py
-def test1(N=100):
+def test1(N=10):
     test = GorilaBasis()
-    for x in xrange(1,N+1):
-        test.getTriangle_SingleRow(x)
+    for x in xrange(N,N+1):
+        print test.getTriangle_SingleRow(x)
 if __name__ == '__main__':
-    from timeit import Timer
-    t1=Timer("test1()","from __main__ import test1")
-    print t1.timeit(100)
-    print t1.timeit(1000)
-    print t1.timeit(5000)
+    # from timeit import Timer
+    # t1=Timer("test1()","from __main__ import test1")
+    # print t1.timeit(100)
+    test1()
     #print t1.timeit(100000)
     # test = GorilaBasis()
     # for x in xrange(0,10):
